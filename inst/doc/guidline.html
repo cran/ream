@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Raphael Hartmann and Matthew Murrow" />
+
+<meta name="date" content="2024-09-05" />
+
+<title>ream: guideline</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">ream: guideline</h1>
+<h4 class="author">Raphael Hartmann and Matthew Murrow</h4>
+<h4 class="date">2024-09-05</h4>
+
+
+
+<div id="r-package-to-calculate-the-pdf-and-cdf-of-evidence-accumulation-models" class="section level1">
+<h1>R Package to Calculate the PDF and CDF of Evidence Accumulation
+Models</h1>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>In the package the following functions are implemented:</p>
+<ul>
+<li>random sampling first-passage times (and their thresholds)</li>
+<li>calculating the defective probability density function (for
+simplicity just called PDF)</li>
+<li>calculating the defective cumulative distribution (for simplicity
+just called CDF)</li>
+<li>simple plotting function for the PDF</li>
+</ul>
+<p>All these functions can be used for the following evidence
+accumulation models (EAM):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Model name</th>
+<th align="left">Short model name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Simple DDM</td>
+<td align="left">SDDM</td>
+</tr>
+<tr class="even">
+<td align="left">Leaky integration model</td>
+<td align="left">LIM</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaky integration model flipped</td>
+<td align="left">LIMF</td>
+</tr>
+<tr class="even">
+<td align="left">Linear threshold model</td>
+<td align="left">LTM</td>
+</tr>
+<tr class="odd">
+<td align="left">Exponential threshold model</td>
+<td align="left">ETM</td>
+</tr>
+<tr class="even">
+<td align="left">Weibull threshold model</td>
+<td align="left">WTM</td>
+</tr>
+<tr class="odd">
+<td align="left">Rational threshold model</td>
+<td align="left">RTM</td>
+</tr>
+<tr class="even">
+<td align="left">Urgency gating model</td>
+<td align="left">UGM</td>
+</tr>
+<tr class="odd">
+<td align="left">Urgency gating model flipped</td>
+<td align="left">UGMF</td>
+</tr>
+<tr class="even">
+<td align="left">Diffusion model of conflict</td>
+<td align="left">DMC</td>
+</tr>
+<tr class="odd">
+<td align="left">Revised diffusion model of conflict</td>
+<td align="left">RDMC</td>
+</tr>
+<tr class="even">
+<td align="left">Shrinking spotlight model</td>
+<td align="left">SSP</td>
+</tr>
+<tr class="odd">
+<td align="left">Piecewise attention model</td>
+<td align="left">PAM</td>
+</tr>
+<tr class="even">
+<td align="left">Contimuous Dual-stage two-process model</td>
+<td align="left">CDSTP</td>
+</tr>
+<tr class="odd">
+<td align="left">Weibull Dual-stage two-process model</td>
+<td align="left">WDSTP</td>
+</tr>
+<tr class="even">
+<td align="left">sequential dual process model</td>
+<td align="left">SDPM</td>
+</tr>
+</tbody>
+</table>
+<p>In this guideline the following use cases are discussed:</p>
+<ol style="list-style-type: decimal">
+<li>Sampling from a specific EAM</li>
+<li>Calculating the PDF and CDF of a specific EAM (and plotting the
+PDF)</li>
+<li>Fitting a specific EAM to data</li>
+<li>Implement your custom EAM</li>
+</ol>
+</div>
+<div id="preparation" class="section level2">
+<h2>0 Preparation</h2>
+<p>The package can be installed from CRAN directly or through GitHub
+using these function calls:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;RaphaelHartmann/ream&quot;</span>)  <span class="co"># installing from GitHub</span></span></code></pre></div>
+<p>Load the package as you typically would:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ream)</span></code></pre></div>
+</div>
+<div id="random-sampling" class="section level2">
+<h2>1 Random Sampling</h2>
+<p>For taking random samples (first-passage/response times and
+thresholds/responses) you can use the same logic as for R-native random
+sampling functions like <code>rnorm()</code>; Just prepend an
+<code>r</code> in front of the short model name (see table above; e.g.,
+for the DMC it would be <code>rDMC()</code>). The random sampling
+function has three arguments: <code>n</code> the number of random
+samples, <code>phi</code> the vector of model parameters in a specific
+order which can be found on its help file, and <code>dt</code> the step
+size of the time in the trajectory.</p>
+<p>For example, sampling from the diffusion model of conflict (DMC) one
+would call the function <code>rDMC()</code> like this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>?rDMC <span class="co"># check the help file</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>(samp <span class="ot">&lt;-</span> <span class="fu">rDMC</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">phi =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">dt =</span> <span class="fl">1e-4</span>))</span></code></pre></div>
+<pre><code>## $rt
+##  [1] 0.3444762 0.6515139 0.5390954 0.5391878 0.4224804 0.5194858 0.4760704
+##  [8] 0.4459530 0.6134381 0.4717932
+## 
+## $resp
+##  [1] &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot;
+## [10] &quot;upper&quot;</code></pre>
+</div>
+<div id="calculating-the-pdf-and-cdf" class="section level2">
+<h2>2 Calculating the PDF and CDF</h2>
+<p>For calculating the PDF and CDF you can also use the same logic as
+for native PDFs and CDFs like <code>dnorm()</code> and
+<code>pnorm()</code>, respectively; Just prepend a <code>d</code> or
+<code>p</code>, respectively, in front of the short model name (see
+table above; e.g., for the DMC it would be <code>dDMC()</code> and
+<code>pDMC()</code>, respectively). These functions have five arguments:
+<code>rt</code> the response times (in seconds) as a vector,
+<code>resp</code> the responses (<code>&quot;upper&quot;</code> and
+<code>&quot;lower&quot;</code>), <code>phi</code> the vector of model parameters
+in a specific order which can be found on its help file,
+<code>x_res</code> the spatial/evidence resolution (<code>&quot;A&quot;</code>,
+<code>&quot;B&quot;</code>, <code>&quot;C&quot;</code>, or <code>&quot;D&quot;</code>), and
+<code>t_res</code> the time resolution (<code>&quot;A&quot;</code>,
+<code>&quot;B&quot;</code>, <code>&quot;C&quot;</code>, or <code>&quot;D&quot;</code>).</p>
+<p>For example, calculating the PDF and CDF of the above samples
+<code>samp</code> for the diffusion model of conflict (DMC) would look
+like this:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>?dDMC <span class="co"># check the help file</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>(PDF <span class="ot">&lt;-</span> <span class="fu">dDMC</span>(<span class="at">rt =</span> samp<span class="sc">$</span>rt, <span class="at">resp =</span> samp<span class="sc">$</span>resp, <span class="at">phi =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">x_res =</span> <span class="st">&quot;default&quot;</span>, <span class="at">t_res =</span> <span class="st">&quot;default&quot;</span>))</span></code></pre></div>
+<pre><code>## $sum_log_pdf
+## [1] 7.279195
+## 
+## $pdf
+##  [1] 0.9479148 4.0056953 1.9278749 0.4998694 1.9300591 2.4637257 4.9919678
+##  [8] 4.1669263 0.7742009 5.1740108
+## 
+## $log_pdf
+##  [1] -0.0534907  1.3877172  0.6564183 -0.6934084  0.6575506  0.9016747
+##  [7]  1.6078302  1.4271787 -0.2559239  1.6436482</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>(CDF <span class="ot">&lt;-</span> <span class="fu">dDMC</span>(<span class="at">rt =</span> samp<span class="sc">$</span>rt, <span class="at">resp =</span> samp<span class="sc">$</span>resp, <span class="at">phi =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">x_res =</span> <span class="st">&quot;default&quot;</span>, <span class="at">t_res =</span> <span class="st">&quot;default&quot;</span>))</span></code></pre></div>
+<pre><code>## $sum_log_pdf
+## [1] 7.278755
+## 
+## $pdf
+##  [1] 0.9478176 4.0048859 1.9278608 0.5003681 1.9301252 2.4628866 4.9899620
+##  [8] 4.1672255 0.7739269 5.1733127
+## 
+## $log_pdf
+##  [1] -0.05359319  1.38751509  0.65641099 -0.69241123  0.65758489  0.90133408
+##  [7]  1.60742829  1.42725046 -0.25627789  1.64351323</code></pre>
+<p>The functions calculate the PDF (or CDF), their log values, and the
+sum of the log values all together and save them in a list.</p>
+<p>GRID</p>
+</div>
+<div id="fitting-a-model-to-data" class="section level2">
+<h2>3 Fitting a Model to Data</h2>
+<p>For fitting an EAM to data one can use the <code>optim()</code>
+function with the <code>&quot;L-BFGS-B&quot;</code> method (or
+<code>nlminb()</code> function). The <code>&quot;L-BFGS-B&quot;</code> method
+allows for defining lower and upper bounds for the parameters to be
+fitted.</p>
+<p>Before we fit a model, we generate some data. For simplicity we
+simulate only one subject with 100 congruent and 100 incongruent
+trials.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">rDMC</span>(<span class="at">n =</span> N, <span class="at">phi =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">dt =</span> <span class="fl">1e-05</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>incon <span class="ot">&lt;-</span> <span class="fu">rDMC</span>(<span class="at">n =</span> N, <span class="at">phi =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">dt =</span> <span class="fl">1e-05</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">congruency =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> N), <span class="at">rt =</span> <span class="fu">c</span>(con<span class="sc">$</span>rt, incon<span class="sc">$</span>rt), <span class="at">resp =</span> <span class="fu">c</span>(con<span class="sc">$</span>resp, incon<span class="sc">$</span>resp))</span></code></pre></div>
+<p>We now want to fit the DMC to the data. We start with defining the
+function to maximize.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>deviation <span class="ot">&lt;-</span> <span class="cf">function</span>(pars, data) {</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  ind_con <span class="ot">&lt;-</span> <span class="fu">which</span>(data<span class="sc">$</span>congruency<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  ind_incon <span class="ot">&lt;-</span> <span class="fu">which</span>(data<span class="sc">$</span>congruency<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  ls_con <span class="ot">&lt;-</span> <span class="fu">dDMC</span>(<span class="at">rt =</span> data<span class="sc">$</span>rt[ind_con], <span class="at">resp =</span> data<span class="sc">$</span>resp[ind_con], <span class="at">phi =</span> <span class="fu">c</span>(pars[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>, pars[<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">x_res =</span> <span class="st">&quot;higher&quot;</span>, <span class="at">t_res =</span> <span class="st">&quot;higher&quot;</span>)<span class="sc">$</span>sum_log_pdf</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  ls_incon <span class="ot">&lt;-</span> <span class="fu">dDMC</span>(<span class="at">rt =</span> data<span class="sc">$</span>rt[ind_incon], <span class="at">resp =</span> data<span class="sc">$</span>resp[ind_incon], <span class="at">phi =</span> <span class="fu">c</span>(pars[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="sc">-</span><span class="dv">1</span>, pars[<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">x_res =</span> <span class="st">&quot;higher&quot;</span>, <span class="at">t_res =</span> <span class="st">&quot;higher&quot;</span>)<span class="sc">$</span>sum_log_pdf</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">return</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(ls_con<span class="sc">+</span>ls_incon))</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now we only need to call the <code>optim()</code> function.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3210</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>(start_pars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">1</span>, .<span class="dv">2</span>, .<span class="dv">6</span>), <span class="fu">runif</span>(<span class="dv">1</span>, .<span class="dv">3</span>, .<span class="dv">7</span>), <span class="fu">runif</span>(<span class="dv">1</span>, .<span class="dv">1</span>, .<span class="dv">6</span>), <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, .<span class="dv">1</span>), <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">4.5</span>), <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>)))</span></code></pre></div>
+<pre><code>## [1] 0.3223039 0.4210046 0.1069716 0.0691608 4.0316741 3.2418832</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">optim</span>(<span class="at">par =</span> start_pars, <span class="at">fn =</span> deviation, <span class="at">method =</span> <span class="st">&quot;L-BFGS-B&quot;</span>, <span class="at">lower =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">1</span>, .<span class="dv">1</span>, <span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>), <span class="at">upper =</span> <span class="fu">c</span>(.<span class="dv">6</span>, .<span class="dv">9</span>, .<span class="dv">6</span>, .<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>), <span class="at">data =</span> data, )</span></code></pre></div>
+<pre><code>## $par
+## [1] 0.28784300 0.43358114 0.27300557 0.03695141 4.04280133 3.26391349
+## 
+## $value
+## [1] -430.0266
+## 
+## $counts
+## function gradient 
+##       28       28 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## [1] &quot;CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH&quot;</code></pre>
+<p>Keep in mind, that more data with more experimental conditions might
+be needed for better estimations.</p>
+</div>
+<div id="implement-your-custom-eam" class="section level2">
+<h2>4. Implement your custom EAM</h2>
+<div id="get-the-source-code" class="section level3">
+<h3>4.1 Get the source code</h3>
+<p>Download from <a href="https://github.com/RaphaelHartmann/ream/">GitHub</a> or from <a href="https://CRAN.R-project.org/package=ream">CRAN</a> the source code
+and extract it.</p>
+</div>
+<div id="get-your-system-ready" class="section level3">
+<h3>4.2 Get your system ready</h3>
+<p>Every operating has some special requirements for building R
+packages. You can find them, for example, in the book <a href="https://r-pkgs.org/setup.html#setup-tools">R Packages</a> by
+Wickham and Bryan.</p>
+</div>
+<div id="what-source-files-to-modify" class="section level3">
+<h3>4.3 What source files to modify</h3>
+<p>Depending on your needs, you can choose between three cases:</p>
+<ul>
+<li>Case 1: drift rate function only dependent on time <em>t</em>, but
+not on evidence state <em>x</em>, or dependent on neither of them</li>
+<li>Case 2: drift rate function dependent on time <em>t</em> and
+evidence state <em>x</em></li>
+<li>Case 3: drift rate and diffusion rate function dependent on time
+<em>t</em> and some weighting <em>w</em>, but not on evidence state
+<em>x</em></li>
+</ul>
+<p>The last case is rather a rare case. If you do not want the drift
+rate to have any dependency on time or evidence state, you pick the
+first case. If your drift rate does depend on time but not on evidence,
+choose also the first case. And so on.</p>
+<p>Depending on the case at hand, different source files should be
+modified in the source code under <code>ream/src/</code>. Modify the
+following class methods depending on the case at hand:</p>
+<ul>
+<li>Case 1: In <code>models_t.h</code> -&gt; class
+<code>CSTM_T</code></li>
+<li>Case 2: In <code>models_tx.h</code> -&gt; class
+<code>CSTM_TX</code></li>
+<li>Case 3: In <code>models_tw.h</code> -&gt; class
+<code>CSTM_TW</code></li>
+</ul>
+<p>These are already prepared classes for custom models and have
+corresponding R functions (e.g., <code>dCSTM_T()</code>). The only thing
+to do is to change the methods of the classes and to recompile the R
+package (probably with a different version number).</p>
+</div>
+<div id="how-to-modify-the-necessary-class-methods" class="section level3">
+<h3>4.4 How to modify the necessary class methods</h3>
+<p>Do not change the arguments!</p>
+<p>Only change the content of the function. For example, if you want to
+change the threshold to be dependent on time in an exponential way (like
+the ETM) change the following method (e.g., inside the
+<code>CSTM_T</code> class) from</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="dt">double</span> upper_threshold<span class="op">(</span><span class="at">const</span> <span class="dt">double</span> phi<span class="op">[</span><span class="dv">100</span><span class="op">],</span> <span class="dt">double</span> t<span class="op">)</span> <span class="at">const</span> <span class="kw">override</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="cf">return</span> phi<span class="op">[</span><span class="dv">4</span><span class="op">];</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>to</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="dt">double</span> upper_threshold<span class="op">(</span><span class="at">const</span> <span class="dt">double</span> phi<span class="op">[</span><span class="dv">100</span><span class="op">],</span> <span class="dt">double</span> t<span class="op">)</span> <span class="at">const</span> <span class="kw">override</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="dt">double</span> b <span class="op">=</span> phi<span class="op">[</span><span class="dv">4</span><span class="op">];</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="dt">double</span> tau <span class="op">=</span> pow<span class="op">(</span><span class="fl">10.0</span><span class="op">,</span> phi<span class="op">[</span><span class="dv">5</span><span class="op">]);</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="dt">double</span> thres <span class="op">=</span> b<span class="op">*</span>exp<span class="op">(-</span>t<span class="op">/</span>tau<span class="op">);</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="cf">return</span> thres<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>In this example, one would also change the lower threshold to:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="dt">double</span> lower_threshold<span class="op">(</span><span class="at">const</span> <span class="dt">double</span> phi<span class="op">[</span><span class="dv">100</span><span class="op">],</span> <span class="dt">double</span> t<span class="op">)</span> <span class="at">const</span> <span class="kw">override</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">-</span>upper_threshold<span class="op">(</span>phi<span class="op">,</span> t<span class="op">);</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Make sure to get the indexing in <code>phi[i]</code> correct. In our
+example, <code>phi[5]</code> is already used by the next function
+<code>contamination_strength()</code>, and should therefore be changed.
+The easiest way is to go from the first method to the last method in the
+class with increasing index of <code>phi[i]</code> (see the other
+classes).</p>
+</div>
+<div id="recompile-the-r-package" class="section level3">
+<h3>4.5 Recompile the R package</h3>
+<p>In the Terminal (of RStudio) navigate to the folder on top of
+<code>ream</code> and execute:</p>
+<ol style="list-style-type: decimal">
+<li><code>R CMD build rtmpt</code></li>
+<li><code>R CMD check rtmpt_&lt;version_number&gt;.tar.gz --as-cran</code></li>
+<li><code>R CMD INSTALL rtmpt_&lt;version_number&gt;.tar.gz</code></li>
+</ol>
+<p>where <code>&lt;version_number&gt;</code> is the version number from
+the downloaded package or the one you changed the package to in
+<code>DESCRIPTION</code>.</p>
+<p>Or, if you have set up RStudio correctly and made an R-project of the
+package you can also click the following instead of using the
+terminal:</p>
+<ol style="list-style-type: decimal">
+<li><code>Build&gt;Load All</code> (Ctrl+Shift+L)</li>
+<li><code>Build&gt;Check Package</code> (Ctrl+Shift+E)</li>
+<li><code>Build&gt;Install Package</code> (Ctrl+Shift+B)</li>
+</ol>
+<p>You should now be ready to use the R functions <code>CSTM_T()</code>,
+<code>CSTM_TX()</code>, and/or <code>CSTM_TW()</code> with your custom
+model(s) once you have loaded the correct version of the package.</p>
+</div>
+<div id="some-notes" class="section level3">
+<h3>4.6 Some notes</h3>
+<p>If you have two or more custom models of the same case, we suggest
+copying the source package multiple times, make each copy a different
+version, and do the above steps for each copy. Note that the
+package/project folder should always be called <code>ream</code>.
+Therefore, copy it to different top-level folders (e.g.,
+<code>.../REAM1/ream/</code> and <code>.../REAM2/ream/</code>).</p>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li>Wickham, H., &amp; Bryan, J. (2023). R packages. ” O’Reilly Media,
+Inc.”.</li>
+<li>Murrow, M., &amp; Holmes, W. R. (2023). PyBEAM: A Bayesian approach
+to parameter inference for a wide class of binary evidence accumulation
+models. <em>Behavior Research Methods</em>, 56(3), 2636–2656. <a href="https://doi.org/10.3758/s13428-023-02162-w" class="uri">https://doi.org/10.3758/s13428-023-02162-w</a></li>
+<li>R Core Team (2023). R: A language and environment for statistical
+computing. <em>R Foundation for Statistical Computing</em>, Vienna,
+Austria. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</li>
+</ul>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
