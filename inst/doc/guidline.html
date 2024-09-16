@@ -12,7 +12,7 @@
 
 <meta name="author" content="Raphael Hartmann and Matthew Murrow" />
 
-<meta name="date" content="2024-09-05" />
+<meta name="date" content="2024-09-13" />
 
 <title>ream: guideline</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">ream: guideline</h1>
 <h4 class="author">Raphael Hartmann and Matthew Murrow</h4>
-<h4 class="date">2024-09-05</h4>
+<h4 class="date">2024-09-13</h4>
 
 
 
@@ -374,63 +374,43 @@ accumulation models (EAM):</p>
 </tr>
 <tr class="even">
 <td align="left">Leaky integration model</td>
-<td align="left">LIM</td>
+<td align="left">LM</td>
 </tr>
 <tr class="odd">
-<td align="left">Leaky integration model flipped</td>
-<td align="left">LIMF</td>
-</tr>
-<tr class="even">
 <td align="left">Linear threshold model</td>
 <td align="left">LTM</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Exponential threshold model</td>
 <td align="left">ETM</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Weibull threshold model</td>
 <td align="left">WTM</td>
-</tr>
-<tr class="odd">
-<td align="left">Rational threshold model</td>
-<td align="left">RTM</td>
 </tr>
 <tr class="even">
 <td align="left">Urgency gating model</td>
 <td align="left">UGM</td>
 </tr>
 <tr class="odd">
-<td align="left">Urgency gating model flipped</td>
-<td align="left">UGMF</td>
-</tr>
-<tr class="even">
 <td align="left">Diffusion model of conflict</td>
 <td align="left">DMC</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Revised diffusion model of conflict</td>
 <td align="left">RDMC</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Shrinking spotlight model</td>
 <td align="left">SSP</td>
 </tr>
-<tr class="odd">
-<td align="left">Piecewise attention model</td>
-<td align="left">PAM</td>
-</tr>
 <tr class="even">
-<td align="left">Contimuous Dual-stage two-process model</td>
-<td align="left">CDSTP</td>
+<td align="left">Dual process model</td>
+<td align="left">DPM</td>
 </tr>
 <tr class="odd">
-<td align="left">Weibull Dual-stage two-process model</td>
-<td align="left">WDSTP</td>
-</tr>
-<tr class="even">
-<td align="left">sequential dual process model</td>
-<td align="left">SDPM</td>
+<td align="left">Dual-stage two-process model</td>
+<td align="left">DSTP</td>
 </tr>
 </tbody>
 </table>
@@ -547,9 +527,9 @@ function to maximize.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3210</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>(start_pars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">1</span>, .<span class="dv">2</span>, .<span class="dv">6</span>), <span class="fu">runif</span>(<span class="dv">1</span>, .<span class="dv">3</span>, .<span class="dv">7</span>), <span class="fu">runif</span>(<span class="dv">1</span>, .<span class="dv">1</span>, .<span class="dv">6</span>), <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, .<span class="dv">1</span>), <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">4.5</span>), <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">5</span>)))</span></code></pre></div>
 <pre><code>## [1] 0.3223039 0.4210046 0.1069716 0.0691608 4.0316741 3.2418832</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">optim</span>(<span class="at">par =</span> start_pars, <span class="at">fn =</span> deviation, <span class="at">method =</span> <span class="st">&quot;L-BFGS-B&quot;</span>, <span class="at">lower =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">1</span>, .<span class="dv">1</span>, <span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>), <span class="at">upper =</span> <span class="fu">c</span>(.<span class="dv">6</span>, .<span class="dv">9</span>, .<span class="dv">6</span>, .<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>), <span class="at">data =</span> data, )</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">optim</span>(<span class="at">par =</span> start_pars, <span class="at">fn =</span> deviation, <span class="at">method =</span> <span class="st">&quot;L-BFGS-B&quot;</span>, <span class="at">lower =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">1</span>, .<span class="dv">1</span>, <span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>), <span class="at">upper =</span> <span class="fu">c</span>(.<span class="dv">6</span>, .<span class="dv">9</span>, .<span class="dv">6</span>, .<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>), <span class="at">data =</span> data)</span></code></pre></div>
 <pre><code>## $par
-## [1] 0.28784300 0.43358114 0.27300557 0.03695141 4.04280133 3.26391349
+## [1] 0.28784300 0.43358114 0.27300557 0.03695141 4.04280133 3.26391350
 ## 
 ## $value
 ## [1] -430.0266
