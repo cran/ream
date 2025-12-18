@@ -1,47 +1,44 @@
 
 
 
-#' Continuous Dual-Stage Two-Phase Model of Selective Attention
+#' 7 Parameter Drift Diffusion Model
 #'
-#' A continuous approximation of the Dual-Stage Two-Phase model of conflict tasks. The
-#'   Dual-Stage Two-Phase model assumes that choice in conflict tasks involves two processes:
-#'   a decision process and a target selection process. The target selection process is an
-#'   SDDM, while the decision process is an SDDM but with drift rate
-#'   \deqn{v(x,t) = (1 - w(t))*(\mu_t + c*\mu_{nt})  + w(t)*\mu_2,}
-#'   where \eqn{w(t) = 0} before target selection and \eqn{w(t) = 1} after target selection.
-#'   A full derivation of this model is in the ream publication.
+#' Density (PDF), distribution function (CDF), and random sampler for the 7 parameter drift
+#'   diffusion model (DDM).
 #'
 #' @param rt vector of response times
 #' @param resp vector of responses ("upper" and "lower")
 #' @param n number of samples
 #' @param phi parameter vector in the following order:
 #'   \enumerate{
-#'     \item Non-decision time (\eqn{t_{nd}}). Time for non-decision processes such as stimulus
+#'     \item non-decision time distribution. Must be an integer of either 0 = delta distribution
+#'       (i.e., single point), 1 = uniform distribution, 2 = truncated normal distribution, or
+#'       3 = inverse Gauss distribution.
+#'     \item Mean non-decision time (\eqn{t_{nd}}). Time for non-decision processes such as stimulus
 #'       encoding and response execution. Total decision time t is the sum of the decision
 #'       and non-decision times.
-#'     \item Relative start (\eqn{w}). Sets the start point of accumulation as a ratio of
+#'     \item Width of non-decision time (\eqn{s_{t_{nd}}}). If the non-decision time distribution is
+#'       delta (0) then this value is ignored, if it is 1 (uniform) then this value is half of the
+#'       range, if it is truncated normal (2) then this value is is the standard deviation, and
+#'       if it is inverse Gauss (3) then this value is the shape (\eqn{\lambda}).
+#'     \item relative start distribution. Must be an integer of either 0 = delta distribution
+#'       (i.e., single point), 1 = uniform distribution, or 2 = truncated normal distribution.
+#'     \item Mean relative start (\eqn{w}). Sets the start point of accumulation as a ratio of
 #'       the two decision thresholds. Related to the absolute start z point via equation
 #'       \eqn{z = b_l + w*(b_u - b_l)}.
-#'     \item Relative start of the target selection process (\eqn{w_{ts}}). Sets the start point
-#'       of accumulation for the target selection process as a ratio of the two decision
-#'       thresholds. Related to the absolute start \eqn{z_{ts}} point via equation
-#'       \eqn{z_{ts} = b_{lts} + w_ts*(b_{uts} – b_{lts})}.
-#'     \item Target stimulus strength (\eqn{\mu_t}).
-#'     \item Congruence parameter (\eqn{c}). Set experiment congruency. In congruent condition
-#'       \eqn{c = 1}, in incongruent condition \eqn{c = -1}, and in neutral condition \eqn{c = 0}.
-#'     \item Non-target stimulus strength (\eqn{\mu_{nt}}).
-#'     \item Drift rate following target selection i.e. stage 2 (\eqn{\mu_2}).
-#'     \item Target selection drift rate (\eqn{\mu_{ts}}).
+#'     \item Width of the relative start (\eqn{s_w}). If the relative start distribution is delta (0) then
+#'       this value is ignored, if it is uniform (1) then this value is half of the range and if
+#'       it is truncated normal (2) then this value is the standard deviation.
+#'     \item Stimulus strength distribution. Must be an integer of either 0 = uniform distribution
+#'       or 1 = normal distribution.
+#'     \item Mean stimulus strength (\eqn{\mu}). Strength of the stimulus and used to set the drift
+#'       rate. For the DDM, \eqn{v(x,t) = \mu}.
+#'     \item Width of stimulus strength (\eqn{s_{\mu}}). If the distribution is uniform (0) then this
+#'       value is half of the range and if it is normal (1) then this value is the standard deviation.
 #'     \item Noise scale (\eqn{\sigma}). Model scaling parameter.
-#'     \item Effective noise scale of continuous approximation (\eqn{\sigma_{eff}}). See ream
-#'       publication for full description.
 #'     \item Decision thresholds (\eqn{b}). Sets the location of each decision threshold. The
 #'       upper threshold \eqn{b_u} is above 0 and the lower threshold \eqn{b_l} is below 0 such that
 #'       \eqn{b_u = -b_l = b}. The threshold separation \eqn{a = 2b}.
-#'     \item Target selection decision thresholds (\eqn{b_{ts}}). Sets the location of each decision
-#'       threshold for the target selection process. The upper threshold \eqn{b_{uts}} is above 0
-#'       and the lower threshold \eqn{b_{lts}} is below 0 such that \eqn{b_{uts} = -b_{lts} = b_{ts}}. The
-#'       threshold separation \eqn{a_{ts} = 2b_{ts}}.
 #'     \item Contamination (\eqn{g}). Sets the strength of the contamination process. Contamination
 #'       process is a uniform distribution \eqn{f_c(t)} where \eqn{f_c(t) = 1/(g_u-g_l)}
 #'       if \eqn{g_l <= t <= g_u} and \eqn{f_c(t) = 0} if \eqn{t < g_l} or \eqn{t > g_u}. It is
@@ -59,22 +56,23 @@
 #'   and the sum of the log-CDFs, and for the random sampler a list of response
 #'   times (rt) and response thresholds (resp).
 #' @references
-#' Hübner, R., Steinhauser, M., & Lehle, C. (2010). A dual-stage two-phase model of
-#'   selective attention. \emph{Psychological review, 117}(3), 759.
+#' Ratcliff, R. (1978). A theory of memory retrieval. \emph{Psychological Review, 85}(2), 59-108.
+#'
+#' Ratcliff, R., & McKoon, G. (2008). The Diffusion Decision Model: Theory and Data
+#'   for Two-Choice Decision Tasks. \emph{Neural Computation, 20}(4), 873-922.
 #' @examples
 #' # Probability density function
-#' dCDSTP(rt = c(1.2, 0.6, 0.4), resp = c("upper", "lower", "lower"),
-#'        phi = c(0.3, 0.5, 0.5, -0.5, -1.0, -0.5, 8.0, 4.0, 1.0, 2.0, 1.3, 1.3, 0.0, 0.0, 1.0))
+#' dDDM(rt = c(1.2, 0.6, 0.4), resp = c("upper", "lower", "lower"),
+#'      phi = c(1, 0.3, 0.05, 1, 0.586, 0.174, 1, 1.0, 2.0, 1.0, 0.75, 0.0, 0.0, 1.0))
 #'
 #' # Cumulative distribution function
-#' pCDSTP(rt = c(1.2, 0.6, 0.4), resp = c("upper", "lower", "lower"),
-#'        phi = c(0.3, 0.5, 0.5, -0.5, -1.0, -0.5, 8.0, 4.0, 1.0, 2.0, 1.3, 1.3, 0.0, 0.0, 1.0))
+#' pDDM(rt = c(1.2, 0.6, 0.4), resp = c("upper", "lower", "lower"),
+#'      phi = c(1, 0.3, 0.05, 1, 0.586, 0.174, 1, 1.0, 2.0, 1.0, 0.75, 0.0, 0.0, 1.0))
 #'
 #' # Random sampling
-#' rCDSTP(n = 100, phi = c(0.3, 0.5, 0.5, -0.5, -1.0, -0.5, 8.0, 4.0, 1.0, 2.0, 1.3, 1.3,
-#'                         0.0, 0.0, 1.0), dt = 0.001)
+#' rDDM(n = 100, phi = c(1, 0.3, 0.05, 1, 0.586, 0.174, 1, 1.0, 2.0, 1.0, 0.75, 0.0, 0.0, 1.0))
 #' @author Raphael Hartmann & Matthew Murrow
-#' @name CDSTP
+#' @name DDM
 NULL
 
 
@@ -84,19 +82,19 @@ NULL
 
 
 
-#' @rdname CDSTP
+#' @rdname DDM
 #' @useDynLib "ream", .registration=TRUE
 #' @export
-dCDSTP <- function(rt,
-                  resp,
-                  phi,
-                  x_res = "default",
-                  t_res = "default") {
+dDDM <- function(rt,
+                 resp,
+                 phi,
+                 x_res = "default",
+                 t_res = "default") {
 
 
   # constants
-  modelname <- "CDSTP"
-  Nphi <- 15
+  modelname <- "DDM"
+  Nphi <- 14
 
 
   # check
@@ -121,11 +119,13 @@ dCDSTP <- function(rt,
 
 
   # prepare arguments for .Call
+  dists <- phi[c(1, 4, 7)]
+  phi <- phi[-c(1, 4, 7)]
   dt_scale <- N_deps <- NULL
   REAL <- c(dt_scale = opt[[3]], rt_max = opt[[1]], phi = phi)
   REAL_RTL <- as.double(RTL[order_l])
   REAL_RTU <- as.double(RTU[order_u])
-  INTEGER <- c(N_deps = opt[[2]], N_rtl = length(REAL_RTL), N_rtu = length(REAL_RTU), Nphi = length(phi))
+  INTEGER <- c(N_deps = opt[[2]], N_rtl = length(REAL_RTL), N_rtu = length(REAL_RTU), Nphi = length(phi), dists = dists)
   CHAR <- modelname
 
 
@@ -159,19 +159,19 @@ dCDSTP <- function(rt,
 
 
 
-#' @rdname CDSTP
+#' @rdname DDM
 #' @useDynLib "ream", .registration=TRUE
 #' @export
-pCDSTP <- function(rt,
-                  resp,
-                  phi,
-                  x_res = "default",
-                  t_res = "default") {
+pDDM <- function(rt,
+                 resp,
+                 phi,
+                 x_res = "default",
+                 t_res = "default") {
 
 
   # constants
-  modelname <- "CDSTP"
-  Nphi <- 15
+  modelname <- "DDM"
+  Nphi <- 14
 
 
   # check
@@ -196,11 +196,13 @@ pCDSTP <- function(rt,
 
 
   # prepare arguments for .Call
+  dists <- phi[c(1, 4, 7)]
+  phi <- phi[-c(1, 4, 7)]
   dt_scale <- N_deps <- NULL
   REAL <- c(dt_scale = opt[[3]], rt_max = opt[[1]], phi = phi)
   REAL_RTL <- as.double(RTL[order_l])
   REAL_RTU <- as.double(RTU[order_u])
-  INTEGER <- c(N_deps = opt[[2]], N_rtl = length(REAL_RTL), N_rtu = length(REAL_RTU), Nphi = length(phi))
+  INTEGER <- c(N_deps = opt[[2]], N_rtl = length(REAL_RTL), N_rtu = length(REAL_RTU), Nphi = length(phi), dists = dists)
   CHAR <- modelname
 
 
@@ -234,16 +236,16 @@ pCDSTP <- function(rt,
 
 
 
-#' @rdname CDSTP
+#' @rdname DDM
 #' @useDynLib "ream", .registration=TRUE
 #' @export
-rCDSTP <- function(n,
-                   phi,
-                   dt = 0.00001) {
+rDDM <- function(n,
+                 phi,
+                 dt = 0.00001) {
 
   # constants
-  modelname <- "CDSTP"
-  Nphi <- 15
+  modelname <- "DDM"
+  Nphi <- 14
 
 
   # check arguments
@@ -254,8 +256,10 @@ rCDSTP <- function(n,
 
 
   # prepare arguments for .Call
+  dists <- phi[c(1, 4, 7)]
+  phi <- phi[-c(1, 4, 7)]
   REAL <- c(dt = dt, phi = phi)
-  INTEGER <- c(N = n, Nphi = length(phi))
+  INTEGER <- c(N = n, Nphi = length(phi), dists = dists)
   CHAR <- modelname
 
 
@@ -282,40 +286,42 @@ rCDSTP <- function(n,
 
 
 
-#' Generate Grid for PDF of the Continuous Dual-Stage Two-Phase Model of Selective Attention
+#' Generate Grid for PDF of the 7 Parameter Drift Diffusion Model
 #'
 #' Generate a grid of response-time values and the corresponding PDF values.
-#'   For more details on the model see, for example, \code{\link{dCDSTP}}.
+#'   For more details on the model see, for example, \code{\link{dDDM}}.
 #'
 #' @param rt_max maximal response time <- max(rt)
 #' @param phi parameter vector in the following order:
 #'   \enumerate{
-#'     \item Non-decision time (\eqn{t_{nd}}). Time for non-decision processes such as stimulus
+#'     \item non-decision time distribution. Must be an integer of either 0 = delta distribution
+#'       (i.e., single point), 1 = uniform distribution, 2 = truncated normal distribution, or
+#'       3 = inverse Gauss distribution.
+#'     \item Mean non-decision time (\eqn{t_{nd}}). Time for non-decision processes such as stimulus
 #'       encoding and response execution. Total decision time t is the sum of the decision
 #'       and non-decision times.
-#'     \item Relative start (\eqn{w}). Sets the start point of accumulation as a ratio of
+#'     \item Width of non-decision time (\eqn{s_{t_{nd}}}). If the non-decision time distribution is
+#'       delta (0) then this value is ignored, if it is 1 (uniform) then this value is half of the
+#'       range, if it is truncated normal (2) then this value is is the standard deviation, and
+#'       if it is inverse Gauss (3) then this value is the shape (\eqn{\lambda}).
+#'     \item relative start distribution. Must be an integer of either 0 = delta distribution
+#'       (i.e., single point), 1 = uniform distribution, or 2 = truncated normal distribution.
+#'     \item Mean relative start (\eqn{w}). Sets the start point of accumulation as a ratio of
 #'       the two decision thresholds. Related to the absolute start z point via equation
 #'       \eqn{z = b_l + w*(b_u - b_l)}.
-#'     \item Relative start of the target selection process (\eqn{w_{ts}}). Sets the start point
-#'       of accumulation for the target selection process as a ratio of the two decision
-#'       thresholds. Related to the absolute start \eqn{z_{ts}} point via equation
-#'       \eqn{z_{ts} = b_{lts} + w_ts*(b_{uts} – b_{lts})}.
-#'     \item Target stimulus strength (\eqn{\mu_t}).
-#'     \item Congruence parameter (\eqn{c}). Set experiment congruency. In congruent condition
-#'       \eqn{c = 1}, in incongruent condition \eqn{c = -1}, and in neutral condition \eqn{c = 0}.
-#'     \item Non-target stimulus strength (\eqn{\mu_{nt}}).
-#'     \item Drift rate following target selection i.e. stage 2 (\eqn{\mu_2}).
-#'     \item Target selection drift rate (\eqn{\mu_{ts}}).
+#'     \item Width of the relative start (\eqn{s_w}). If the relative start distribution is delta (0) then
+#'       this value is ignored, if it is uniform (1) then this value is half of the range and if
+#'       it is truncated normal (2) then this value is the standard deviation.
+#'     \item Stimulus strength distribution. Must be an integer of either 0 = uniform distribution
+#'       or 1 = normal distribution.
+#'     \item Mean stimulus strength (\eqn{\mu}). Strength of the stimulus and used to set the drift
+#'       rate. For the DDM, \eqn{v(x,t) = \mu}.
+#'     \item Width of stimulus strength (\eqn{s_{\mu}}). If the distribution is uniform (0) then this
+#'       value is half of the range and if it is normal (1) then this value is the standard deviation.
 #'     \item Noise scale (\eqn{\sigma}). Model scaling parameter.
-#'     \item Effective noise scale of continuous approximation (\eqn{\sigma_{eff}}). See ream
-#'       publication for full description.
 #'     \item Decision thresholds (\eqn{b}). Sets the location of each decision threshold. The
 #'       upper threshold \eqn{b_u} is above 0 and the lower threshold \eqn{b_l} is below 0 such that
 #'       \eqn{b_u = -b_l = b}. The threshold separation \eqn{a = 2b}.
-#'     \item Target selection decision thresholds (\eqn{b_{ts}}). Sets the location of each decision
-#'       threshold for the target selection process. The upper threshold \eqn{b_{uts}} is above 0
-#'       and the lower threshold \eqn{b_{lts}} is below 0 such that \eqn{b_{uts} = -b_{lts} = b_{ts}}. The
-#'       threshold separation \eqn{a_{ts} = 2b_{ts}}.
 #'     \item Contamination (\eqn{g}). Sets the strength of the contamination process. Contamination
 #'       process is a uniform distribution \eqn{f_c(t)} where \eqn{f_c(t) = 1/(g_u-g_l)}
 #'       if \eqn{g_l <= t <= g_u} and \eqn{f_c(t) = 0} if \eqn{t < g_l} or \eqn{t > g_u}. It is
@@ -329,20 +335,22 @@ rCDSTP <- function(n,
 #' @param t_res time resolution
 #' @return list of RTs and corresponding defective PDFs at lower and upper threshold
 #' @references
-#' Hübner, R., Steinhauser, M., & Lehle, C. (2010). A dual-stage two-phase model of
-#'   selective attention. \emph{Psychological review, 117}(3), 759.
+#' Ratcliff, R. (1978). A theory of memory retrieval. \emph{Psychological Review, 85}(2), 59-108.
+#'
+#' Ratcliff, R., & McKoon, G. (2008). The Diffusion Decision Model: Theory and Data
+#'   for Two-Choice Decision Tasks. \emph{Neural Computation, 20}(4), 873-922.
 #' @author Raphael Hartmann & Matthew Murrow
 #' @useDynLib "ream", .registration=TRUE
 #' @export
-dCDSTP_grid <- function(rt_max = 10.0,
-                        phi,
-                        x_res = "default",
-                        t_res = "default") {
+dDDM_grid <- function(rt_max = 10.0,
+                      phi,
+                      x_res = "default",
+                      t_res = "default") {
 
 
   # constants
-  modelname <- "CDSTP"
-  Nphi <- 15
+  modelname <- "DDM"
+  Nphi <- 14
 
 
   # checking input
@@ -357,13 +365,12 @@ dCDSTP_grid <- function(rt_max = 10.0,
 
 
   # prepare arguments for r
+  dists <- phi[c(1, 4, 7)]
+  phi <- phi[-c(1, 4, 7)]
   dt_scale <- N_deps <- NULL
-
   CHAR <- modelname
-
   REAL <- c(dt_scale = dt_scale, rt_max = rt_max, phi = phi)
-
-  INTEGER <- c(N_deps = N_deps, N_phi = length(phi))
+  INTEGER <- c(N_deps = N_deps, N_phi = length(phi), dists = dists)
 
 
   # call C++ function

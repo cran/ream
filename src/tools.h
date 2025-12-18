@@ -15,6 +15,7 @@
 #include <iterator>
 #include <vector>
 #include <R.h>
+#include <Rinternals.h>
 
 /* -------------------------------------------------- */
 /* -------------------------------------------------- */
@@ -41,6 +42,15 @@ extern double dt_scale; // for ll
 extern double rt_max; // for ll
 extern int N_rtl; // for ll
 extern int N_rtu; // for ll
+
+// for DDM with 7 parameters:
+extern int tnd_dist;
+extern int N_dtau;
+extern double tnd_range;
+extern int w_dist;
+extern int v_dist;
+extern int N_dv;
+extern double v_range;
 
 extern int N_phi;
 
@@ -70,6 +80,11 @@ const float threshold_cutoff = 1.0e-4; /* sets the minimum threshold value */
 const float p_fpt_min = 1.0e-5; /* sets the minimum likelihood probability */
 const float int_prob_min = 0.25; /* used to check if enough probability has accumulated to cutoff solver */
 
+/* constants used by across-trial variabilities */
+const int N_con = 5; /* number of dummy time steps included between 0 and lower bound of disontinuous non-decision time distributions (i.e. delta and uniform)  */
+const double w_min = 0.05; /* min value of start point distribution */
+const double w_max = 0.95; /* max value of start point distribution */
+
 /* constants used by function approx_dt */
 const double t_max = 100.0; /* simulate until this time only */
 const int N_sims = 10; /* number of simulations */
@@ -88,6 +103,12 @@ const double pi = 3.14159265358979323846;
 
 /* function for the drift rate in SSP */
 double ncdf(double x);
+
+/* helper functions for cleaning r function calls */
+double callRFunction3x(SEXP, const double*, int, double, double);
+double callRFunction2x(SEXP, const double*, int, double);
+double callRFunction1x(SEXP fun, const double*, int);
+
 
 
 #endif

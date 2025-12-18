@@ -1,7 +1,7 @@
 Package: ream
 Title: Density, Distribution, and Sampling Functions for Evidence
         Accumulation Models
-Version: 1.0-5
+Version: 1.0-9
 Authors@R: 
     c(person("Raphael", "Hartmann", email = "raphael.hartmann@protonmail.com", role = c("aut", "cre"), 
              comment = c(ORCID = "0000-0003-4686-9329")),
@@ -27,16 +27,18 @@ Description: Calculate the probability density functions (PDFs) for two threshol
     and 'PyBEAM' publications. Additionally, one can calculate the cumulative distribution 
     functions of and sampling from the EAMs.
 Suggests: knitr, rmarkdown
+NeedsCompilation: yes
+SystemRequirements: C++17
 VignetteBuilder: knitr
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://github.com/RaphaelHartmann/ream
 BugReports: https://github.com/RaphaelHartmann/ream/issues
-NeedsCompilation: yes
-Packaged: 2024-09-25 08:30:23 UTC; hartmann
-Author: Raphael Hartmann [aut, cre] (<https://orcid.org/0000-0003-4686-9329>),
+Packaged: 2025-12-18 09:09:39 UTC; hartmann
+Author: Raphael Hartmann [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-4686-9329>),
   Matthew Murrow [aut]
 Maintainer: Raphael Hartmann <raphael.hartmann@protonmail.com>
 Repository: CRAN
-Date/Publication: 2024-09-26 11:30:10 UTC
+Date/Publication: 2025-12-18 12:10:02 UTC

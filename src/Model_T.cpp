@@ -8,6 +8,7 @@
 /* -------------------------------------------------- */
 
 #include "Model_T.h"
+#include "models_t.h"
 
 
 /* Model_T Constructor */
@@ -65,7 +66,7 @@ double Model_T::approx_dt(double* phi, double dt_scale) const {
       uu = unif_L() >= 0.5 ? 1.0 : -1.0;
 
       /* calculate accumulated evidence */
-      xx += dt_*vv + sqrtdt*DD*uu;
+      xx += dt_sims*vv + sqrtdt*DD*uu;
 
       /* check if accumulated evidence has crossed a decision threshold */
       if ((xx >= bu) || (xx <= bl)) {
@@ -1300,3 +1301,5 @@ int Model_T::grid_pdf(double *Rrt, double *Rpdf_u, double *Rpdf_l, double *phi) 
   return 0;
 
 }
+
+ModelT_Callbacks CSTM_T::callbacks;
