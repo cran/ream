@@ -1,4 +1,4 @@
-da2e00d1d97c3e9504f2a65ee7eec4c4 *DESCRIPTION
+605d601058e8396a362f93bc468ac4a8 *DESCRIPTION
 43671195e58e6317551df10f55bf0755 *NAMESPACE
 ed6662f39968b318d14bf5af75a20f46 *R/CSTM_T.R
 b99fc65fe404e8c376b2a07832b2c39b *R/CSTM_TW.R
@@ -24,7 +24,7 @@ c862ec5c53c8b58be5b624312c7f7abe *README.md
 8fde71579f4d0f2eaa8d03442f503743 *build/vignette.rds
 644ec4c11e9351f0dbbbe0613fe87640 *inst/doc/guideline.R
 a5e1362d51ad198354e0bc81331fa01d *inst/doc/guideline.Rmd
-5dfc1e5e0e32052613ae1cbb896a726c *inst/doc/guideline.html
+66cb11b03255401cb8a347a9ae7040eb *inst/doc/guideline.html
 a1f5b0d60bec93c7ab6b939fd12a4882 *inst/extdata/my_lim.cpp
 aeb622991821a7e5d64d9892797e9150 *man/CSTM_T.Rd
 108191a8cdb0aeeb38373b0e0932f6b2 *man/CSTM_TW.Rd
@@ -73,12 +73,12 @@ b668ccae9ba785429345d6016bc36ccf *src/Model_T.cpp
 45e2cda3327e646362a5e40500eee9de *src/Model_TW.h
 5335778f5ebcc07f1961ab1b4e893e17 *src/Model_TX.cpp
 c086d0b2554c7f97401b3fa4a3510d85 *src/Model_TX.h
-d3877f9dbc68edbfe3c3372a5d1f6a27 *src/R_wrapper.cpp
+99ea97f3dccb11d57ebfbaadc3a40fdd *src/R_wrapper.cpp
 824a2cbb92db3dfb83cd1e078a37fc64 *src/models_7p.h
 6ed45de05518375866e64509d5576271 *src/models_t.h
 d2502755bf07871fb7515fc31eccce24 *src/models_tw.h
 4e50b35304c35abe0e512ae27a7bc03f *src/models_tx.h
-45f17c15786bd2c67cd592a284f4a669 *src/ream_init.c
+f3bc8036d5ff4ab58fa42051bc1c0b58 *src/ream_init.c
 2cbb368e93c02e6ebbc471b1803e461c *src/tools.cpp
 611d5e220adfe77e35d3d8c633b34453 *src/tools.h
 a5e1362d51ad198354e0bc81331fa01d *vignettes/guideline.Rmd
